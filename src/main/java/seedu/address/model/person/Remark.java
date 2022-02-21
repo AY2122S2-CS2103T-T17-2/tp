@@ -2,15 +2,11 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * Represents a Person's remark in the address book.
- * Guarantees: immutable; is always valid
- */
 public class Remark {
     public final String value;
 
     /**
-     * Construct {@code Remark} with {@code remark}
+     * Constructs a {@code Remark} object with the value of {@code remark}.
      */
     public Remark(String remark) {
         requireNonNull(remark);
@@ -24,9 +20,9 @@ public class Remark {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Remark // instanceof handles nulls
-                && value.equals(((Remark) other).value)); // state check
+        return other == this
+                || (other instanceof Remark
+                && value.equals(((Remark) other).value));
     }
 
     @Override
