@@ -137,8 +137,7 @@ public class ViewCommand extends Command {
     private String getIngredients(Recipe recipe) {
         StringBuilder ingredients = new StringBuilder();
         for (Ingredient ingredient : recipe.getIngredients()) {
-            ingredients.append(String.format("%s %s %s\n", ingredientName,
-                    quantity, quantifier));
+            ingredients.append(String.format("%s\n", ingredient.toString()));
         }
         return ingredients.toString();
     }
