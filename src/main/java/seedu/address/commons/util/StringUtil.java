@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,14 +81,17 @@ public class StringUtil {
     }
 
     /**
-     * @return true if the double value of {@code s} is greater than 0.
+     * @return true if the double value of {@code s} is greater than 0 and
+     * has more than 2 decimal places
      */
     public static boolean isNonZeroPositiveDouble(String s) {
         requireNonNull(s);
 
         try {
             double value = Double.parseDouble(s);
-            return value > 0;
+            BigDecimal bdValue = BigDecimal.valueOf(value);
+            int scale = Math.abs(bdValue.scale());
+            return ((value > 0) && (scale < 3));
         } catch (NumberFormatException nfe) {
             return false;
         }

@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import seedu.address.logic.parser.exceptions.ParseException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -125,11 +127,15 @@ public class ArgumentTokenizer {
         int valueStartPos = currentPrefixPosition.getStartPosition() + prefix.getPrefix().length();
         String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition());
 
-        List<String> multiValue =
-                Arrays.stream(value.split(RecipeBookSyntax.SEPARATOR_SYMBOL))
-                        .map(v -> v.trim()).collect(Collectors.toUnmodifiableList());
+        // remove empty arguments
+        List<String> multiValue = new ArrayList<>();
+        for (String v: value.split(RecipeBookSyntax.SEPARATOR_SYMBOL)) {
+            if (!v.trim().isEmpty()) {
+                multiValue.add(v);
+            }
+        }
 
-        return multiValue;
+        return List.copyOf(multiValue);
     }
 
     /**

@@ -31,8 +31,8 @@ public class RecipeBookParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      * @throws ParseException if the index is invalid (not a non-zero positive integer).
      */
-    public static Index parseIndex(String oneBasedIndex) throws ParseException {
-        String trimmedIndex = oneBasedIndex.trim();
+    public static Index parseIndex(String oneBasedIndexString) throws ParseException {
+        String trimmedIndex = oneBasedIndexString.trim();
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
             throw new ParseException(Messages.MESSAGE_INVALID_RECIPE_INDEX);
         }
@@ -44,13 +44,18 @@ public class RecipeBookParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      * @throws ParseException if the given {@code name} is invalid.
      */
-    public static Name parseName(String name) throws ParseException {
-        requireNonNull(name);
-        String trimmedName = name.trim();
+    public static Name parseName(String nameString) throws ParseException {
+        requireNonNull(nameString);
+        String trimmedName = nameString.trim();
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
-        return new Name(trimmedName);
+
+        try {
+            return new Name(trimmedName);
+        } catch (IllegalArgumentException err) {
+            throw new ParseException(err.getMessage());
+        }
     }
 
     /**
@@ -58,14 +63,19 @@ public class RecipeBookParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      * @throws ParseException if the time is invalid (not a non-zero positive integer).
      */
-    public static CompletionTime parseCompletionTime(String time) throws ParseException {
-        requireNonNull(time);
+    public static CompletionTime parseCompletionTime(String timeString) throws ParseException {
+        requireNonNull(timeString);
 
-        String trimmedTime = time.trim();
+        String trimmedTime = timeString.trim();
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedTime)) {
             throw new ParseException(CompletionTime.MESSAGE_CONSTRAINTS);
         }
-        return new CompletionTime(Integer.parseInt(trimmedTime));
+
+        try {
+            return new CompletionTime(Integer.parseInt(trimmedTime));
+        } catch (IllegalArgumentException err) {
+            throw new ParseException(err.getMessage());
+        }
     }
 
     /**
@@ -73,12 +83,19 @@ public class RecipeBookParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      * @throws ParseException if the ServingSize is invalid (not a non-zero positive number).
      */
-    public static ServingSize parseServingSize(String servingSize) throws ParseException {
-        String trimmedSize = servingSize.trim();
-        if (!StringUtil.isNonZeroPositiveDouble(trimmedSize)) {
+    public static ServingSize parseServingSize(String servingSizeString) throws ParseException {
+        requireNonNull(servingSizeString);
+
+        String trimmedSize = servingSizeString.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedSize)) {
             throw new ParseException(ServingSize.MESSAGE_CONSTRAINTS);
         }
-        return new ServingSize(Integer.parseInt(servingSize));
+
+        try {
+            return new ServingSize(Integer.parseInt(trimmedSize));
+        } catch (IllegalArgumentException err) {
+            throw new ParseException(err.getMessage());
+        }
     }
 
 

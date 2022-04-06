@@ -9,8 +9,10 @@ import java.util.Objects;
  * Guarantees: immutable; is valid as declared in {@link #isValidServingSize(Integer)}
  */
 public class ServingSize {
+
     public static final String MESSAGE_CONSTRAINTS =
-            "ServingSize size should not be left blank or less than or equals to 0";
+            "ServingSize size should be a valid, reasonable amount of servings that's greater than 0 "
+                    + "and less than 1000 servings (that's literally impossible)";
 
     public final Integer value;
 
@@ -26,10 +28,10 @@ public class ServingSize {
     }
 
     /**
-     * Checks if the size is a valid Integer value > 0.
+     * Checks if the size is a valid Integer between 0 and 1000.
      */
     public static boolean isValidServingSize(Integer test) {
-        return test > 0;
+        return (test > 0 && test < 1000);
     }
 
     @Override
